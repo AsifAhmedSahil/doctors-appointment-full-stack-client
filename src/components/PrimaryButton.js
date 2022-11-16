@@ -5,5 +5,5 @@ const PrimaryButton = ({children}) => {
     <button className="btn text-white rounded btn-primary bg-gradient-to-r from-cyan-500 to-blue-500">{children}</button>
   )
 }
-
+fff
 export default PrimaryButton
