@@ -1,4 +1,5 @@
 import React from 'react'
+import Appointments from '../Appointments/Appointments'
 import Bannar from '../Bannar/Bannar'
 import Features from '../Features/Features'
 import InfoCards from '../InfoCard/InfoCards'
@@ -11,6 +12,7 @@ const Home = () => {
         <InfoCards/>
         <Services/>
         <Features/>
+        <Appointments/>
     </div>
   )
 }
