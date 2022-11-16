@@ -1,10 +1,11 @@
 import React from 'react'
 import chair from '../../../assets/images/chair.png'
+import bg from "../../../assets/images/bg.png"
 import PrimaryButton from '../../../components/PrimaryButton'
 
 const Bannar = () => {
   return (
-    <div className="hero  ">
+    <div style={{background: `url(${bg})`}} className="hero  ">
   <div className="hero-content flex-col lg:flex-row-reverse">
     <img src={chair} className=" lg:w-1/2 rounded-lg shadow-2xl" />
     <div>
