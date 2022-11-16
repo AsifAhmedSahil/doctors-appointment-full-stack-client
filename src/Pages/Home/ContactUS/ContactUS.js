@@ -1,5 +1,6 @@
 import React from 'react'
 import bgForm from "../../../assets/images/appointment.png"
+import PrimaryButton from '../../../components/PrimaryButton'
 
 const ContactUS = () => {
   return (
@@ -11,6 +12,7 @@ const ContactUS = () => {
         <input type="text" placeholder="Your Email" className="input input-bordered w-full max-w-xs" />
         <input type="text" placeholder="Subject" className="input input-bordered w-full max-w-xs" />
         <textarea className="w-80 textarea textarea-bordered h-24" placeholder="Message"></textarea>
+        <PrimaryButton >Submit</PrimaryButton>
         </div>
     </div>
     </section>
