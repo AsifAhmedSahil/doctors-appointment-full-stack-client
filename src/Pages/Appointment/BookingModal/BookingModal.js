@@ -46,9 +46,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
               className="input input-bordered w-full"
             />
             <select name="slot" className="select select-bordered w-full ">
-              <option disabled selected>
-                Who shot first?
-              </option>
+              
                 {
                     slots.map((slot,i) => <option value={slot} key={i} >
                         {slot}
