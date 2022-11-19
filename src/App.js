@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
 import Router from './Routes/Routes/Router';
@@ -8,6 +8,7 @@ function App() {
     <div className='max-w-[1440px] mx-auto'>
 
       <RouterProvider router={Router}></RouterProvider>
+      
      
     </div>
   );

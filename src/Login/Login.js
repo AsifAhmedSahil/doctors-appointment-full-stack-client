@@ -1,12 +1,16 @@
 import { Result } from "postcss";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 
 const Login = () => {
   const [loginError, setLoginError] = useState("");
   const { SignIn } = useContext(AuthContext);
+  const location = useLocation()
+  const navigate = useNavigate()
+
+    const from = location.state?.from?.pathname || "/"
 
   const { register, handleSubmit } = useForm();
   const handleLogin = (data) => {
@@ -16,6 +20,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        navigate(from,{replace:true});
       })
       .catch((error) => {
         console.log(error.message);
