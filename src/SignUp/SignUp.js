@@ -9,7 +9,7 @@ const SignUp = () => {
     const handleSignUp = data =>{
         console.log(data)
         createUser(data.email,data.password)
-        .then(result => {
+        .then((result) => {
             const user = result.user;
             console.log(user);
         })

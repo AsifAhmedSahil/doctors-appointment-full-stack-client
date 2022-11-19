@@ -1,11 +1,26 @@
-import React from "react";
+import { Result } from "postcss";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const Login = () => {
+  const [loginError, setLoginError] = useState("");
+  const { SignIn } = useContext(AuthContext);
+
   const { register, handleSubmit } = useForm();
   const handleLogin = (data) => {
+    setLoginError('')
     console.log(data);
+    SignIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setLoginError(error.message);
+      });
   };
   return (
     <div className="h-[800px] flex justify-center items-center">
@@ -34,13 +49,13 @@ const Login = () => {
             <label className="label">
               <span className="label-text">Forget Password?</span>
             </label>
+            <div>{loginError && <p className="text-red-600">{loginError} dekhao</p>}</div>
             <input
               type="submit"
               className="btn bg-gray-600 w-full text-white"
               value="Login"
             />
           </div>
-          
         </form>
         <div className="text-center mt-4">
           <p>
@@ -50,6 +65,7 @@ const Login = () => {
             </Link>
           </p>
         </div>
+
         <div className="divider">OR</div>
         <button className="btn btn-outline w-full rounded">
           CONTINUE WITH GOOGLE
