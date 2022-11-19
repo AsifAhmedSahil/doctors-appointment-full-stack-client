@@ -1,9 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/AuthProvider'
 
-const Navbar = () => {
+const Navbar = ({theme,setTheme}) => {
   const {user,logout} = useContext(AuthContext)
+  
+  const Toggle =(e) =>{
+    
+    setTheme(e.target.checked)
+  }
+
+ 
+
   const handleLogout = ()=>{
     logout()
     .then(()=>{})
@@ -21,9 +29,10 @@ const Navbar = () => {
         <li><button onClick={handleLogout} to="/login">Sign Out</button></li>
        </>: 
          <li><Link to="/login">Login</Link></li>}
+         <div className='flex items-center'><input onChange={Toggle}  type="checkbox" className="toggle toggle-success "  /></div>
   </React.Fragment>
   return (
-    <div className="navbar bg-base-100 flex justify-between">
+    <div className="navbar bg-base-100 flex justify-between  ">
   <div className="navbar-start">
     <div className="dropdown">
       <label tabIndex={0} className="btn btn-ghost lg:hidden">
