@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { AuthContext } from '../contexts/AuthProvider'
 
 
@@ -16,13 +17,14 @@ const SignUp = () => {
         .then((result) => {
             const user = result.user;
             console.log(user);
-            // toast("Wow so easy!");
+            toast("User Created Successfully 🙂 ");
             const userInfo = {
               displayName: data.name
             }
             updateUser(userInfo)
             .then(()=>{
-              navigate("/")
+              saveUser(data.name,data.email);
+              
             })
             .catch(err => console.log(err));
 
@@ -31,6 +33,22 @@ const SignUp = () => {
           console.log(error)
           setSignupError(error.message);
         });
+    }
+
+    const saveUser = (name,email) =>{
+      const user = {name,email};
+      fetch("http://localhost:5000/users",{
+        method: 'POST',
+        headers:{
+          "content-type": "application/json"
+        },
+        body:JSON.stringify(user)
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log("saveuser",data);
+        navigate("/")
+      })
     }
   return (
     <div className="h-[800px] flex justify-center items-center">
@@ -64,6 +82,7 @@ const SignUp = () => {
             <input
               type="password"
               {...register("password")}
+              required
               className="input input-bordered w-full max-w-xs"
             />
             {

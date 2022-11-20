@@ -4,6 +4,7 @@ import Main from "../../Layout/Main";
 import Login from "../../Login/Login";
 import Appointments from "../../Pages/Appointment/Appointment/Appointments";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
+import MyAppoinement from "../../Pages/Dashboard/MyAppointment/MyAppoinement";
 import Home from "../../Pages/Home/Home/Home";
 import SignUp from "../../SignUp/SignUp";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -37,7 +38,7 @@ const Router = createBrowserRouter([
             children:[
                 {
                     path:"/dashboard",
-                    element:<Dashboard/>
+                    element:<MyAppoinement/>
                 }
             ]
     }
