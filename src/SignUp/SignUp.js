@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthProvider'
+
 
 const SignUp = () => {
     const {createUser,updateUser} = useContext(AuthContext)
     const {register,handleSubmit} = useForm()
     const [signupError,setSignupError] = useState('')
+    const navigate = useNavigate()
     const handleSignUp = data =>{
         console.log(data)
         setSignupError("")
@@ -14,12 +16,14 @@ const SignUp = () => {
         .then((result) => {
             const user = result.user;
             console.log(user);
-
+            // toast("Wow so easy!");
             const userInfo = {
               displayName: data.name
             }
             updateUser(userInfo)
-            .then(()=>{})
+            .then(()=>{
+              navigate("/")
+            })
             .catch(err => console.log(err));
 
         })
