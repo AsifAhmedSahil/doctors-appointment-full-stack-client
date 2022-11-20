@@ -1,5 +1,6 @@
 import { format } from "date-fns/esm";
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const BookingModal = ({ treatment, selectedDate, setTreatment,refetch }) => {
@@ -38,6 +39,10 @@ const BookingModal = ({ treatment, selectedDate, setTreatment,refetch }) => {
         if(data.acknowledged){
           setTreatment(null);
           refetch();
+          toast.success("Booking Successfull")
+        }
+        else{
+          toast.error(data.message)
         }
       })
     
