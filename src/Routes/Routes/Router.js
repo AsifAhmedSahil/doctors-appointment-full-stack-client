@@ -3,11 +3,13 @@ import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
 import Login from "../../Login/Login";
 import Appointments from "../../Pages/Appointment/Appointment/Appointments";
+import AddDoctor from "../../Pages/Dashboard/AddDoctor/AddDoctor";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import MyAppoinement from "../../Pages/Dashboard/MyAppointment/MyAppoinement";
 import Home from "../../Pages/Home/Home/Home";
 import SignUp from "../../SignUp/SignUp";
+import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const Router = createBrowserRouter([
@@ -43,7 +45,11 @@ const Router = createBrowserRouter([
                 },
                 {
                     path:"/dashboard/allusers",
-                    element:<AllUsers/>
+                    element:<AdminRoute><AllUsers/></AdminRoute>
+                },
+                {
+                    path:"/dashboard/adddoctor",
+                    element:<AdminRoute><AddDoctor/></AdminRoute>
                 },
             ]
     }
