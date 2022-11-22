@@ -1,21 +1,50 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import DeleteModal from "../../Shared/DeleteModal/DeleteModal";
 
 const ManageDoctors = () => {
-  const { data: doctors } = useQuery({
+  const [deletingDoctor,setDeletingDoctor] = useState()
+
+  const closeModal = () =>{
+    setDeletingDoctor(null);
+  }
+
+  
+  const { data: doctors ,refetch} = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
       try {
-        const res = fetch("http://localhost:5000/doctors", {
+        const res = await fetch("http://localhost:5000/doctors", {
           headers: {
-            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            authorization: `bearer ${localStorage.getItem("accessToekn")}`,
           },
         });
-        const data = await (await res).json();
+        const data = await res.json();
+        console.log(data)
         return data;
       } catch (error) {}
     },
   });
+
+  const handleDelete = doctor =>{
+    fetch(`http://localhost:5000/doctors/${doctor._id}`,{
+      method:"DELETE",
+      headers:{
+        authorization: `bearer ${localStorage.getItem("accessToekn")}`
+      }
+    })
+    .then(res => res.json())
+    .then(data =>{
+      // console.log(data);
+      if(data.deletedCount > 0){
+        toast.success(`Doctor ${doctor.name} deleted successfully`)
+        refetch();
+      }
+      
+    })
+  }
+
   return (
     <div>
       <div className="overflow-x-auto">
@@ -31,27 +60,43 @@ const ManageDoctors = () => {
             </tr>
           </thead>
           <tbody>
-            {doctors.map((doctor, i) => (
-              <tr>
-                <th>{i + 1}</th>
-                <td>{doctor.name}</td>
-                <td>
-                  <div className="avatar">
-                    <div className="w-24 rounded-full">
-                      <img src={doctor.image} />
+            {doctors &&
+              doctors.map((doctor, i) => (
+                <tr>
+                  <th>{i + 1}</th>
+                  <td>{doctor.name}</td>
+                  <td>
+                    <div className="avatar">
+                      <div className="w-24 rounded-full">
+                        <img src={doctor.image} alt="/" />
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>{doctor.email}</td>
-                <td>{doctor.specialty}</td>
-                <td>
-                  <button className="btn btn-sm btn-error">DELETE</button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>{doctor.email}</td>
+                  <td>{doctor.specialty}</td>
+                  <td>
+                    <label
+                      htmlFor="confirmation-modal"
+                      className="btn btn-sm btn-error"
+                      onClick={()=>setDeletingDoctor(doctor)}
+                    >
+                      DELETE
+                    </label>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
+      {
+        deletingDoctor && <DeleteModal 
+          title = {`Are You want to sure for delete?`}
+          message = {`If You want to delete ${deletingDoctor.name}. It can not undo`}
+          closemodal = {closeModal}
+          modalData = {deletingDoctor}
+          successAction = {handleDelete}
+        />
+      }
     </div>
   );
 };

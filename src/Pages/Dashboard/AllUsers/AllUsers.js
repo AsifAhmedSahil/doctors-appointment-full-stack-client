@@ -16,7 +16,7 @@ const AllUsers = () => {
         fetch(`http://localhost:5000/users/admin/${id}`,{
             method:"PUT",
             headers:{
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
+                authorization: `bearer ${localStorage.getItem('accessToekn')}`
             }
 
         })
