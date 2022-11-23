@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react'
 
 
 const CheckoutForm = ({booking}) => {
+  const {price,patient,email,_id} = booking
+
     const [clientSecret, setClientSecret] = useState("");
-    const {price,patient,email} = booking
     const [cardError,setCardError] = useState("");
     const [success,setSuccess] = useState("");
+    const [processing,setProcessing] = useState(false);
     const [transactionId,setTransactionId] = useState("");
     const stripe = useStripe();
     const elements = useElements();
@@ -53,6 +55,7 @@ const CheckoutForm = ({booking}) => {
           }
 
           setSuccess("")
+          setProcessing(true)
           const {paymentIntent, error:confirmError} = await stripe.confirmCardPayment(
             clientSecret,
             {
@@ -70,12 +73,35 @@ const CheckoutForm = ({booking}) => {
             setCardError(confirmError.message);
             return
           }
+          const payment ={
+            price,
+            transactionId: paymentIntent.id,
+            email,
+            bookingId: _id
+
+          }
           if(paymentIntent.status === "succeeded"){
-            setSuccess("Completed payment")
-            setTransactionId(paymentIntent.id)
+            
+            fetch("http://localhost:5000/payments",{
+              method:"POST",
+              headers:{
+                "content-type":"application/json",
+                authorization: `bearer ${localStorage.getItem('accessToekn')}`
+              },
+              body: JSON.stringify(payment)
+            })
+            .then(res => res.json())
+            .then(data => {
+              console.log(data)
+              if(data.insertedId){
+                setSuccess("Completed payment")
+                setTransactionId(paymentIntent.id)
+              }
+            })
 
           }
           console.log(paymentIntent);
+          setProcessing(false)
 
     }
 
@@ -101,7 +127,7 @@ const CheckoutForm = ({booking}) => {
     />
     <button 
     className='btn btn-primary btn-sm bg-cyan-600 text-white rounded mt-6' 
-    type="submit" disabled={!stripe || !clientSecret}>
+    type="submit" disabled={!stripe || !clientSecret || processing}>
       Pay
     </button>
   </form>
