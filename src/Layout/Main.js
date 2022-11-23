@@ -4,7 +4,8 @@ import Navbar from "../Pages/Shared/Navbar/Navbar"
 import Footer from "../Pages/Shared/Footer/Footer"
 
 const Main = () => {
-  const [theme,setTheme] = useState(false)
+  const [theme,setTheme] = useState(false);
+  
 
   useEffect(()=>{
     console.log(theme)

@@ -8,6 +8,8 @@ import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
 import MyAppoinement from "../../Pages/Dashboard/MyAppointment/MyAppoinement";
+import Payment from "../../Pages/Dashboard/Payment/Payment";
+import DisplayError from "../../Pages/DisplayError/DisplayError";
 import Home from "../../Pages/Home/Home/Home";
 import SignUp from "../../SignUp/SignUp";
 import AdminRoute from "../AdminRoute/AdminRoute";
@@ -17,6 +19,7 @@ const Router = createBrowserRouter([
     {
         path:"/",
         element:<Main></Main>,
+        errorElement:<DisplayError/>,
         children:[
             {
                 path:'/',
@@ -55,6 +58,11 @@ const Router = createBrowserRouter([
                 {
                     path:"/dashboard/managedoctors",
                     element:<AdminRoute><ManageDoctors/></AdminRoute>
+                },
+                {
+                    path:"/dashboard/payment/:id",
+                    element:<AdminRoute><Payment/></AdminRoute>,
+                    loader:({params}) => fetch(`http://localhost:5000/bookings/${params.id}`) 
                 },
             ]
     }
